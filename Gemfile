@@ -18,7 +18,8 @@ gem 'pg'
 # gem 'ruby-debug'
 
 # Bundle the extra gems:
-gem 'RedCloth', :require => 'redcloth'
+# gem 'RedCloth', :require => 'redcloth'
+gem 'rdiscount'
 gem 'ruby-openid', :require => 'openid'
 gem 'rack-openid', :require => 'rack/openid'
 gem 'aaronh-chronic', :require => 'chronic' # Fixes for 1.9.2
@@ -37,4 +38,6 @@ group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
   gem 'hpricot'
+  gem 'ruby-debug19'
+  gem 'spork', '~> 0.9.0.rc'
 end
