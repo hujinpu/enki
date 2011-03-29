@@ -6,3 +6,5 @@ config/database.yml
 db/schema.rb
 .bundle
 *.log
+Capfile
+config/deploy.rb
