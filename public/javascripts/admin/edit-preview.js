@@ -15,11 +15,10 @@ $(document).ready(function() {
           type: 'POST',
           data: form.serialize().replace(/&*_method=\w+&*/, ''),
           url: dest,
-          error: function() {
-            $('#preview .content').html('<p>Failed to generate preview. Toggle back to edit mode and check that all required fields are filled in and valid.</p>');
-          },
-          success: function(r) {
-            $('#preview .content').html(r);
+          statusCode: {
+            200: function(text) {
+              $('#preview .content').html(text);
+            }
           }
         });
       }

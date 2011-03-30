@@ -14,7 +14,7 @@ String.prototype.endsWith = function(t, i) {
   } else {
     return (t.toLowerCase() == this.substring(this.length - t.length).toLowerCase());
   }
-}
+};
 
 // http://ozmm.org/posts/jquery_and_respond_to.html
 jQuery.ajaxSetup({
@@ -23,5 +23,5 @@ jQuery.ajaxSetup({
 
 // jQuery extensions
 jQuery.prototype.any = function(callback) {
-  return (this.filter(callback).length > 0)
+  return (this.filter(callback).length > 0);
 }
