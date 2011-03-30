@@ -33,3 +33,7 @@
         \- surround code blocks with ---)
     %p
       =submit_tag 'Add Comment'
+
+- content_for(:footer) do
+  = javascript_include_tag 'common'
+  = javascript_include_tag 'live-comment-preview'
