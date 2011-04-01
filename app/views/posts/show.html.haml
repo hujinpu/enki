@@ -1,5 +1,5 @@
 - content_for(:page_title) do
-  post_title(@post)
+  = post_title(@post)
 
 = render :partial => 'posts/post', :locals => {:post => @post}
 
