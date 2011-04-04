@@ -26,7 +26,7 @@ gem 'aaronh-chronic', :require => 'chronic' # Fixes for 1.9.2
 gem 'coderay'
 gem 'lesstile'
 gem 'formtastic'
-gem 'will_paginate', '= 3.0.pre2'
+gem 'will_paginate'
 gem "haml"
 gem "haml-rails"
 
