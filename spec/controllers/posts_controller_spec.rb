@@ -23,10 +23,22 @@ shared_examples_for "ATOM feed" do
   end
 end
 
+shared_examples_for 'cacheable posts list' do
+  it "should setup cache control to public" do
+    do_get
+    response.headers["Cache-Control"].should == "public"
+  end
+
+  it "should setup ETag" do
+    do_get
+    response.headers["ETag"].should == '"e872d1baf47e47e3278d3e114e192806"'
+  end
+end
+
 describe PostsController do
   describe 'handling GET to index'do
     before(:each) do
-      @posts = [mock_model(Post)]
+      @posts = [mock_model(Post, :approved_comments_count => 1, :updated_at => Time.utc(2009,1,1))]
       Post.stub!(:find_recent).and_return(@posts)
     end
 
@@ -35,6 +47,7 @@ describe PostsController do
     end
 
     it_should_behave_like('successful posts list')
+    it_should_behave_like('cacheable posts list')
 
     it "should find recent posts" do
       Post.should_receive(:find_recent).with(:tag => nil, :include => :tags).and_return(@posts)
@@ -44,7 +57,7 @@ describe PostsController do
 
   describe 'handling GET to index with tag'do
     before(:each) do
-      @posts = [mock_model(Post)]
+      @posts = [mock_model(Post, :approved_comments_count => 1, :updated_at => Time.utc(2009,1,1))]
       Post.stub!(:find_recent).and_return(@posts)
     end
 
@@ -53,6 +66,7 @@ describe PostsController do
     end
 
     it_should_behave_like('successful posts list')
+    it_should_behave_like('cacheable posts list')
 
     it "should find recent tagged posts" do
       Post.should_receive(:find_recent).with(:tag => 'code', :include => :tags).and_return(@posts)
@@ -74,19 +88,14 @@ describe PostsController do
 
   describe 'handling GET to index with invalid tag'do
     it "shows post not found" do
-      # This would normally 404, except the way future dated posts are handled
-      # means it is possible for a tag to exist (and show up in the navigation)
-      # without having any public posts. If that issue is ever fixed, this
-      # behaviour should revert to 404ing.
       Post.stub!(:find_recent).and_return([])
-      get :index, :tag => 'bogus'
-      assigns(:posts).should be_empty
+      lambda { get :index, :tag => 'bogus' }.should raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
   describe 'handling GET to /posts.atom'do
     before(:each) do
-      @posts = [mock_model(Post)]
+      @posts = [mock_model(Post, :approved_comments_count => 1, :updated_at => Time.utc(2009,1,1))]
       Post.stub!(:find_recent).and_return(@posts)
     end
 
@@ -106,7 +115,7 @@ describe PostsController do
 
   describe 'handling GET to /posts.atom with tag'do
     before(:each) do
-      @posts = [mock_model(Post)]
+      @posts = [mock_model(Post, :approved_comments_count => 1, :updated_at => Time.utc(2009,1,1))]
       Post.stub!(:find_recent).and_return(@posts)
     end
 
@@ -126,8 +135,8 @@ describe PostsController do
 
   describe "handling GET for a single post" do
     before(:each) do
-      @post = mock_model(Post)
-      @comment = mock_model(Post)
+      @post = mock_model(Post, :approved_comments_count => 1, :updated_at => Time.utc(2009,1,1))
+      @comment = mock_model(Comment)
       Post.stub!(:find_by_permalink).and_return(@post)
       Comment.stub!(:new).and_return(@comment)
     end
@@ -160,7 +169,7 @@ describe PostsController do
       do_get
       assigns[:comment].should equal(@comment)
     end
-    
+
     it "should route /pages to posts#index with tag pages" do
       {:get => "/pages"}.should route_to(:controller => 'posts', :action => 'index', :tag => 'pages')
     end
