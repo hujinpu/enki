@@ -28,6 +28,9 @@
             - page_links_for_navigation.each do |link|
               %li= link_to(link.name, link.url)
 
+            %li
+              %a{:href => "http://feeds.feedburner.com/hujinpu", :title => "Feed me"} Feed me
+
           - unless category_links_for_navigation.empty?
             %h2 Categories
             %ul
