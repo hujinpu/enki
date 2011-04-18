@@ -1,0 +1,53 @@
+<html>
+  <head>
+  </head>
+  <body>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+    <div class="time"></div>
+
+    <script type="text/javascript" src="http://qunarzz.com/js/jquery/build/jquery-1.5.2.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+          setTimeout(function() {
+            var times = $('.time');
+            var curDate = new Date;
+            times.each(function() {
+              this.innerHTML = curDate.getMilliseconds();
+            });
+
+            curDate = null;
+            times = null;
+            setTimeout(arguments.callee, 150);
+          }, 150);
+      });
+    </script>
+  </body>
+</html>
